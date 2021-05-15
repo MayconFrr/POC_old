@@ -1,2 +1,6 @@
 # CLion Files #
 .idea/
+
+# Data #
+data_raw/
+data_processed/
