@@ -4,3 +4,6 @@
 # Data #
 data_raw/
 data_processed/
+
+# CMake Files #
+mutant_selection/cmake-build-debug/
