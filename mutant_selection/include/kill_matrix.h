@@ -19,7 +19,13 @@ typedef struct {
     int kill_count;
     int test_count;
     bool hard_to_kill;
+    test_t** tests;
 } mutant_t;
+
+typedef struct {
+    mutant_t *mutant;
+    test_t **tests;
+} agent_t;
 
 typedef struct {
     size_t num_mutants;

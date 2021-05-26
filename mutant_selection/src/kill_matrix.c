@@ -88,6 +88,7 @@ void clear_mutants(data_t *data) {
         mutant->kill_count = 0;
         mutant->test_count = 0;
         mutant->hard_to_kill = true;
+        mutant->tests = NULL;
     }
 }
 
