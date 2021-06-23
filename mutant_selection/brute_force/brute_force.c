@@ -1,13 +1,8 @@
-#define STB_DS_IMPLEMENTATION
-
-#include "../include/random_cap.h"
-#include "../include/stb_ds.h"
+#include "brute_force.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-#define CAP 0.05L
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
@@ -23,7 +18,7 @@ int main(int argc, char *argv[]) {
     clear_tests(&data);
 
     clock_t start = clock();
-    random_cap(&data);
+    brute_force(&data);
     clock_t end = clock();
 
     mutants_to_csv(argv[2], &data);
@@ -36,30 +31,17 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void random_cap(data_t *data) {
+void brute_force(data_t *data) {
     #pragma omp parallel for default(none) shared(data)
     for (int i = 0; i < data->num_mutants; i++) {
-        test_t *tests = NULL;
-        arrsetlen(tests, data->num_tests);
-        memcpy(tests, data->tests, data->num_tests * sizeof(test_t));
-
         for (int j = 0; j < data->num_tests; j++) {
-            int selected = (int)(rand() % arrlen(tests));
-            int test_index = tests[selected].index;
-            arrdelswap(tests, selected);
-
-            if (data->kill_matrix[i][test_index] == 1) {
-                data->simulation_matrix[i][test_index] = KILLED;
+            if (data->kill_matrix[i][j] == 1) {
+                data->simulation_matrix[i][j] = KILLED;
                 data->mutants[i].kill_count++;
-                if (data->mutants[i].kill_count > data->num_tests * CAP) {
-                    data->mutants[i].hard_to_kill = false;
-                    break;
-                }
-            } else if (data->kill_matrix[i][test_index] == 0) {
-                data->simulation_matrix[i][test_index] = NOT_KILLED;
+            } else if (data->kill_matrix[i][j] == 0) {
+                data->simulation_matrix[i][j] = NOT_KILLED;
             }
             data->mutants[i].test_count++;
         }
-        arrfree(tests);
     }
 }

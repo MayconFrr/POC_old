@@ -2,8 +2,8 @@
 #pragma ide diagnostic ignored "bugprone-sizeof-expression"
 #define STB_DS_IMPLEMENTATION
 
-#include "../include/smc.h"
-#include "../include/stb_ds.h"
+#include "smc.h"
+#include "../stb_ds.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
     clear_mutants(&data);
     clear_tests(&data);
 
+    // Initialize remaining needed structures
     arrsetlen(remaining_mutants, data.num_mutants);
     for (int i = 0; i < data.num_mutants; i++) {
         mutant_t *mutant = &data.mutants[i];

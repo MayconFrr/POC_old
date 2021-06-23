@@ -1,4 +1,4 @@
-#include "../include/kill_matrix.h"
+#include "kill_matrix.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -64,7 +64,7 @@ void simulation_matrix_to_csv(const char *filepath, data_t *data) {
 
     for (int i = 0; i < data->num_mutants; i++) {
         for (int j = 0; j < data->num_tests - 1; j++) {
-            fprintf(file, "%d ", data->simulation_matrix[i][j]);
+            fprintf(file, "%d,", data->simulation_matrix[i][j]);
         }
         fprintf(file, "%d\n", data->simulation_matrix[i][data->num_tests - 1]);
     }
