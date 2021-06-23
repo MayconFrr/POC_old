@@ -1,7 +1,7 @@
 #ifndef POC_RANDOM_CAP_H
 #define POC_RANDOM_CAP_H
 
-#include "kill_matrix.h"
+#include "../kill_matrix/kill_matrix.h"
 
 void random_cap(data_t *data);
 

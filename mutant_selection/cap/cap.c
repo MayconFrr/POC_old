@@ -1,8 +1,10 @@
-#include "../include/brute_force.h"
+#include "cap.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
+#define CAP 0.05L
 
 int main(int argc, char *argv[]) {
     if (argc < 3) {
@@ -18,7 +20,7 @@ int main(int argc, char *argv[]) {
     clear_tests(&data);
 
     clock_t start = clock();
-    brute_force(&data);
+    cap(&data);
     clock_t end = clock();
 
     mutants_to_csv(argv[2], &data);
@@ -31,13 +33,17 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void brute_force(data_t *data) {
+void cap(data_t *data) {
     #pragma omp parallel for default(none) shared(data)
     for (int i = 0; i < data->num_mutants; i++) {
         for (int j = 0; j < data->num_tests; j++) {
             if (data->kill_matrix[i][j] == 1) {
                 data->simulation_matrix[i][j] = KILLED;
                 data->mutants[i].kill_count++;
+                if (data->mutants[i].kill_count > data->num_tests * CAP) {
+                    data->mutants[i].hard_to_kill = false;
+                    break;
+                }
             } else if (data->kill_matrix[i][j] == 0) {
                 data->simulation_matrix[i][j] = NOT_KILLED;
             }
